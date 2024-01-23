@@ -15,12 +15,12 @@ class LabAct1 {
 
     System.out.println("Here are the items I need to take a bath:");
     counter++;
-    String[] items = {"shampoo", "conditioner", "facial wash", "soap", "towel"};
+    String[] items = {"shampoo", "conditioner", "hair mask", "facial wash", "soap","loofa", "towel", "toothbrush", "toothpaste", "face moisturizer", "lotion"};
     counter++;
-    for (String item : items) {
-        System.out.println("        *" + item);
+        
+    for (int i = 0; i < items.length; i++) { counter++; counter++;
+        System.out.println("        *" + items[i]); counter++;
     }
-    counter++;
 
     System.out.println("2. Change into pajamas");
     counter++;
