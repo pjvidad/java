@@ -1,8 +1,8 @@
 import java.util.Scanner;
 
 class LabAct1 {
-    public static int counter = 0; {
-    }
+    public static int counter = 0; 
+    
     public static void main(String[] args) {
 
     System.out.println("My Unique Algorithm to Prepare to Sleep:");
