@@ -2,7 +2,6 @@ import java.util.Scanner;
 
 class LabAct1 {
     public static int counter = 0; {
-        counter++;
     }
     public static void main(String[] args) {
 
