@@ -16,6 +16,8 @@ public class Lab3 {
         System.out.print("Enter number of Dimensions: ");
         int dimension = input.nextInt();
 
+        input.close();
+        
         // upper bounds
         int[] upperBounds = new int[dimension];
         for (int i = 0; i < dimension; i++) {
