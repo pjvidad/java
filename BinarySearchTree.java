@@ -1,150 +1,149 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
-class Node {
-    int key;
-    Node left, right;
+class TreeNode {
+    int data;
+    TreeNode left, right;
 
-    public Node(int item) {
-        key = item;
-        left = right = null;
+    public TreeNode(int data) {
+        this.data = data;
+        this.left = this.right = null;
     }
 }
 
-public class BinarySearchTree {
-    Node root;
+class CompleteBinaryTreeTraversalsWithRestart {
 
-    BinarySearchTree() {
-        root = null;
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        do {
+            System.out.print("Enter comma-separated values: ");
+            String input = scanner.nextLine();
+
+            String[] values = input.split(",");
+            int[] userInput = new int[values.length];
+
+            Set<Integer> seenValues = new HashSet<>();
+
+            int validCount = 0;
+            for (String value : values) {
+                int intValue = Integer.parseInt(value.trim());
+                if (intValue != 0 && seenValues.add(intValue)) {
+                    userInput[validCount++] = intValue;
+                }
+            }
+
+            int[] validInput = new int[validCount];
+            System.arraycopy(userInput, 0, validInput, 0, validCount);
+
+            TreeNode root = createBinarySearchTree(validInput);
+
+            System.out.println("\n1-D Array Representation: ");
+            int[] arrayRepresentation = createArrayRepresentation(root);
+            for (int value : arrayRepresentation) {
+                System.out.print(value + " ");
+            }
+
+            System.out.println("\nTraversals: ");
+            System.out.print("Pre-order Traversal: ");
+            preOrderTraversal(root);
+
+            System.out.print("\nIn-order Traversal: ");
+            inOrderTraversal(root);
+
+            System.out.print("\nPost-order Traversal: ");
+            postOrderTraversal(root);
+
+            System.out.print("\nDo you want to try again? (y/n): ");
+            String restartChoice = scanner.nextLine().toLowerCase();
+
+            if (!restartChoice.equals("y")) {
+                System.out.println("Exiting program. Goodbye!");
+                break;
+            }
+
+        } while (true);
     }
 
-    void insert(int key) {
-        root = insertRec(root, key);
-    }
-
-    Node insertRec(Node root, int key) {
-        if (root == null) {
-            root = new Node(key);
-            return root;
+    private static TreeNode createBinarySearchTree(int[] userInput) {
+        if (userInput.length == 0) {
+            return null;
         }
 
-        if (key < root.key)
-            root.left = insertRec(root.left, key);
-        else if (key > root.key)
-            root.right = insertRec(root.right, key);
+        TreeNode root = new TreeNode(userInput[0]);
+
+        for (int i = 1; i < userInput.length; i++) {
+            insertIntoBST(root, userInput[i]);
+        }
 
         return root;
     }
 
-    void inorder() {
-        inorderRec(root);
-        System.out.println();
-    }
-
-    void inorderRec(Node root) {
-        if (root != null) {
-            inorderRec(root.left);
-            System.out.print(root.key + " ");
-            inorderRec(root.right);
+    private static void insertIntoBST(TreeNode root, int value) {
+        if (value < root.data) {
+            if (root.left == null) {
+                root.left = new TreeNode(value);
+            } else {
+                insertIntoBST(root.left, value);
+            }
+        } else if (value > root.data) {
+            if (root.right == null) {
+                root.right = new TreeNode(value);
+            } else {
+                insertIntoBST(root.right, value);
+            }
         }
     }
 
-    void preorder() {
-        preorderRec(root);
-        System.out.println();
-    }
-
-    void preorderRec(Node root) {
+    private static void inOrderTraversal(TreeNode root) {
         if (root != null) {
-            System.out.print(root.key + " ");
-            preorderRec(root.left);
-            preorderRec(root.right);
+            inOrderTraversal(root.left);
+            System.out.print(root.data + " ");
+            inOrderTraversal(root.right);
         }
     }
 
-    void postorder() {
-        postorderRec(root);
-        System.out.println();
-    }
-
-    void postorderRec(Node root) {
+    private static void preOrderTraversal(TreeNode root) {
         if (root != null) {
-            postorderRec(root.left);
-            postorderRec(root.right);
-            System.out.print(root.key + " ");
+            System.out.print(root.data + " ");
+            preOrderTraversal(root.left);
+            preOrderTraversal(root.right);
         }
     }
 
-    List<Integer> generate1DRepresentation() {
-        List<Integer> result = new ArrayList<>();
-        generatePreorder(root, result);
-        return result;
+    private static void postOrderTraversal(TreeNode root) {
+        if (root != null) {
+            postOrderTraversal(root.left);
+            postOrderTraversal(root.right);
+            System.out.print(root.data + " ");
+        }
     }
 
-    void generatePreorder(Node root, List<Integer> result) {
+    private static int[] createArrayRepresentation(TreeNode root) {
+        int height = getHeight(root);
+        int[] arrayRepresentation = new int[(int) Math.pow(2, height) - 1];
+        fillArrayRepresentation(root, arrayRepresentation, 0);
+        return arrayRepresentation;
+    }
+
+    private static void fillArrayRepresentation(TreeNode root, int[] array, int index) {
         if (root == null) {
-            result.add(0);
             return;
         }
-        result.add(root.key);
-        if (root.left != null || root.right != null) {
-            generatePreorder(root.left, result);
-            generatePreorder(root.right, result);
-        }
+
+        array[index] = root.data;
+
+        fillArrayRepresentation(root.left, array, 2 * index + 1);
+        fillArrayRepresentation(root.right, array, 2 * index + 2);
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        boolean tryAgain = true;
-
-        while (tryAgain) {
-            BinarySearchTree tree = new BinarySearchTree();
-
-            System.out.println("Enter integer values separated by commas to insert into the binary search tree (press Enter to stop): ");
-            String input = scanner.nextLine().trim();
-            if (input.isEmpty()) {
-                System.out.println("No input provided. Exiting...");
-                return;
-            }
-
-            String[] values = input.split(",");
-            List<Integer> inputValues = new ArrayList<>();
-            for (String value : values) {
-                try {
-                    int num = Integer.parseInt(value.trim());
-                    inputValues.add(num);
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid input! Please enter integers separated by commas.");
-                    return;
-                }
-            }
-
-            for (int value : inputValues) {
-                tree.insert(value);
-            }
-
-            System.out.println("1D representation of the binary search tree:");
-            List<Integer> representation = tree.generate1DRepresentation();
-            System.out.println(representation);
-
-            System.out.print("Preorder traversal: ");
-            tree.preorder();
-
-            System.out.print("Inorder traversal: ");
-            tree.inorder();
-
-            System.out.print("Postorder traversal: ");
-            tree.postorder();
-
-            System.out.println("Do you want to try again? (yes/no)");
-            String choice = scanner.nextLine().toLowerCase();
-            if (!choice.equals("yes")) {
-                tryAgain = false;
-            }
+    private static int getHeight(TreeNode root) {
+        if (root == null) {
+            return 0;
         }
 
-        scanner.close();
+        int leftHeight = getHeight(root.left);
+        int rightHeight = getHeight(root.right);
+
+        return 1 + Math.max(leftHeight, rightHeight);
     }
 }
-
