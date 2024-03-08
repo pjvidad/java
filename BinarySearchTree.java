@@ -43,8 +43,7 @@ class CompleteBinaryTreeTraversalsWithRestart {
                 System.out.print(value + " ");
             }
 
-            System.out.println("\nTraversals: ");
-            System.out.print("Pre-order Traversal: ");
+            System.out.print("\nPre-order Traversal: ");
             preOrderTraversal(root);
 
             System.out.print("\nIn-order Traversal: ");
