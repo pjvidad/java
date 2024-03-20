@@ -175,5 +175,14 @@ class AVLTree {
         System.out.println("\nInorder traversal of constructed tree is : ");
         tree.inOrder(tree.root);
 
+        System.out.print("\nDo you want to try again? (y/n): ");
+        String restartChoice = scanner.nextLine().toLowerCase();
+
+        if (!restartChoice.equals("y")) {
+            System.out.println("Exiting program. Goodbye!");
+            break; 
+        }
+            
+        scanner.close();    
     }
 }
