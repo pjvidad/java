@@ -11,7 +11,6 @@ class Node {
 }
 
 class AVLTree {
-
     Node root;
 
     int height(Node N) {
@@ -268,5 +267,5 @@ class AVLTree {
             return;
         }
     }
+} 
 }
-
