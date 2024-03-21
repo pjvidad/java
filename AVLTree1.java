@@ -251,3 +251,69 @@ class AVLTree {
             }
 
             System.out.println("\nPreorder traversal of constructed
+                               public static void main(String[] args) {
+    AVLTree tree = new AVLTree();
+    Scanner scanner = new Scanner(System.in);
+
+    while (true) {
+        System.out.println("Choose an option:");
+        System.out.println("1. Insert");
+        System.out.println("2. Delete");
+        System.out.println("3. Exit");
+
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        switch (choice) {
+            case 1:
+                System.out.println("Enter an integer to insert into the AVL tree:");
+                try {
+                    int key = Integer.parseInt(scanner.nextLine());
+                    tree.root = tree.insert(tree.root, key);
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter an integer.");
+                }
+                break;
+            case 2:
+                System.out.println("Enter an integer to delete from the AVL tree:");
+                try {
+                    int key = Integer.parseInt(scanner.nextLine());
+                    tree.root = tree.deleteNode(tree.root, key);
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter an integer.");
+                }
+                break;
+            case 3:
+                System.out.println("Exiting program. Goodbye!");
+                scanner.close();
+                return;
+            default:
+                System.out.println("Invalid choice. Please enter a valid option (1, 2, or 3).");
+        }
+
+        int[] arrayRepresentation = createArrayRepresentation(tree.root);
+        System.out.println("\nArray representation of the tree is : ");
+        for (int i : arrayRepresentation) {
+            System.out.print(i + " ");
+        }
+
+        System.out.println("\nPreorder traversal of constructed tree is : ");
+        tree.preOrder(tree.root);
+
+        System.out.println("\nPostorder traversal of constructed tree is : ");
+        tree.postOrder(tree.root);
+
+        System.out.println("\nInorder traversal of constructed tree is : ");
+        tree.inOrder(tree.root);
+
+        System.out.print("\nDo you want to try again? (y/n): ");
+        String restartChoice = scanner.nextLine().toLowerCase();
+
+        if (!restartChoice.equals("y")) {
+            System.out.println("Exiting program. Goodbye!");
+            scanner.close();
+            return;
+        }
+    }
+}
+
